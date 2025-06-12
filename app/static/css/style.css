@@ -1,4 +1,4 @@
-/* Couleurs inspirées des drapeaux de Madagascar et Italie */
+
 :root {
     --madagascar-red: #FC3D32;
     --madagascar-green: #007E3A;
@@ -13,7 +13,7 @@
     --dark: #333333;
 }
 
-/* Base Styles */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -69,12 +69,12 @@ footer {
     margin-top: 2rem;
 }
 
-/* Typography */
+
 h2, h3, h4 {
     color: var(--primary);
 }
 
-/* Buttons */
+
 .button {
     display: inline-block;
     background-color: var(--primary);
@@ -99,7 +99,7 @@ h2, h3, h4 {
     background-color: #c82333;
 }
 
-/* Forms */
+
 .form-group {
     margin-bottom: 1rem;
 }
@@ -156,7 +156,7 @@ tr:hover {
     font-weight: bold;
 }
 
-/* Balance Section */
+/* Balance */
 .balance-section {
     text-align: center;
     margin: 2rem 0;
@@ -179,7 +179,7 @@ tr:hover {
     color: var(--italy-red);
 }
 
-/* Flash Messages */
+/* Messages quand on fait une action */
 .flash-success {
     padding: 0.75rem;
     background-color: #d4edda;
@@ -254,7 +254,7 @@ tr:hover {
     background: linear-gradient(90deg, var(--primary), var(--accent));
 }
 
-/* Responsive */
+/* Responsivité */
 @media (max-width: 768px) {
     nav ul {
         flex-direction: column;
@@ -293,7 +293,7 @@ tr:hover {
     font-size: 1rem;
 }
 
-/* Analytics améliorés */
+/* Analytics  */
 .categories {
     display: grid;
     gap: 2rem;
@@ -314,7 +314,7 @@ tr:hover {
     background: linear-gradient(90deg, var(--madagascar-red), var(--italy-red));
 }
 
-/* Tableaux améliorés */
+/* Tableaux  */
 table {
     margin-top: 1rem;
 }
@@ -324,7 +324,7 @@ th {
     top: 0;
 }
 
-/* Responsive */
+/* Responsivité  */
 @media (max-width: 768px) {
     .filter-group label {
         display: block;
