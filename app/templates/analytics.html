@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Analytics</h2>
+    
+    <section class="summary">
+        <div class="summary-card">
+            <h3>Total Revenus</h3>
+            <p class="positive">{{ "%.2f"|format(total_incomes) }} €</p>
+        </div>
+        <div class="summary-card">
+            <h3>Total Dépenses</h3>
+            <p class="negative">{{ "%.2f"|format(total_expenses) }} €</p>
+        </div>
+        <div class="summary-card">
+            <h3>Solde</h3>
+            <p class="{% if (total_incomes - total_expenses) >= 0 %}positive{% else %}negative{% endif %}">
+                {{ "%.2f"|format(total_incomes - total_expenses) }} €
+            </p>
+        </div>
+    </section>
+    
+    <section class="categories">
+        <div class="categories-section">
+            <h3>Revenus par Catégorie</h3>
+            <div class="categories-grid">
+                {% for category, amount in income_categories.items() %}
+                <div class="category-item">
+                    <h4>{{ category }}</h4>
+                    <p>{{ "%.2f"|format(amount) }} €</p>
+                    <div class="progress-bar">
+                        <div class="progress income-progress" style="width: {{ (amount / total_incomes * 100) if total_incomes > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="categories-section">
+            <h3>Dépenses par Catégorie</h3>
+            <div class="categories-grid">
+                {% for category, amount in expense_categories.items() %}
+                <div class="category-item">
+                    <h4>{{ category }}</h4>
+                    <p>{{ "%.2f"|format(amount) }} €</p>
+                    <div class="progress-bar">
+                        <div class="progress expense-progress" style="width: {{ (amount / total_expenses * 100) if total_expenses > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

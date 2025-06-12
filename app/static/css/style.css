@@ -1,0 +1,343 @@
+/* Couleurs inspirées des drapeaux de Madagascar et Italie */
+:root {
+    --madagascar-red: #FC3D32;
+    --madagascar-green: #007E3A;
+    --madagascar-white: #FFFFFF;
+    --italy-green: #009246;
+    --italy-white: #FFFFFF;
+    --italy-red: #CE2B37;
+    --primary: var(--madagascar-red);
+    --secondary: var(--italy-green);
+    --accent: var(--madagascar-green);
+    --light: var(--madagascar-white);
+    --dark: #333333;
+}
+
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: var(--light);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+nav a {
+    color: var(--light);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--dark);
+    color: var(--light);
+    margin-top: 2rem;
+}
+
+/* Typography */
+h2, h3, h4 {
+    color: var(--primary);
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    background-color: var(--primary);
+    color: var(--light);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: var(--accent);
+}
+
+.button.delete {
+    background-color: #dc3545;
+}
+
+.button.delete:hover {
+    background-color: #c82333;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e9e9e9;
+}
+
+.income {
+    color: var(--italy-green);
+    font-weight: bold;
+}
+
+.expense {
+    color: var(--italy-red);
+    font-weight: bold;
+}
+
+/* Balance Section */
+.balance-section {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--light);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.balance-amount {
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+}
+
+.positive {
+    color: var(--italy-green);
+}
+
+.negative {
+    color: var(--italy-red);
+}
+
+/* Flash Messages */
+.flash-success {
+    padding: 0.75rem;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.flash-error {
+    padding: 0.75rem;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+/* Analytics */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.summary-card {
+    background-color: var(--light);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.summary-card h3 {
+    margin-top: 0;
+    color: var(--dark);
+}
+
+.summary-card p {
+    font-size: 1.5rem;
+    margin: 0.5rem 0 0;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-item {
+    background-color: var(--light);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category-item h4 {
+    margin-top: 0;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Filtres */
+.filters {
+    background-color: var(--light);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.filter-group {
+    margin-bottom: 0.75rem;
+}
+
+.filter-group label {
+    display: inline-block;
+    width: 100px;
+    font-weight: 500;
+}
+
+.filter-group select, 
+.filter-group input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Analytics améliorés */
+.categories {
+    display: grid;
+    gap: 2rem;
+}
+
+.categories-section {
+    background-color: var(--light);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.income-progress {
+    background: linear-gradient(90deg, var(--italy-green), var(--madagascar-green));
+}
+
+.expense-progress {
+    background: linear-gradient(90deg, var(--madagascar-red), var(--italy-red));
+}
+
+/* Tableaux améliorés */
+table {
+    margin-top: 1rem;
+}
+
+th {
+    position: sticky;
+    top: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filter-group label {
+        display: block;
+        width: auto;
+        margin-bottom: 0.25rem;
+    }
+    
+    .filters form {
+        display: grid;
+        gap: 1rem;
+    }
+    
+    .filter-group {
+        margin-bottom: 0;
+    }
+}

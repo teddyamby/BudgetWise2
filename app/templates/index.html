@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="balance-section">
+        <h2>Solde Actuel</h2>
+        <p class="balance-amount {% if balance >= 0 %}positive{% else %}negative{% endif %}">
+            {{ "%.2f"|format(balance) }} €
+        </p>
+    </section>
+    
+    <section class="recent-transactions">
+        <h2>Récentes Transactions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Montant</th>
+                    <th>Catégorie</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.type }}</td>
+                    <td class="{% if transaction.type == 'income' %}income{% else %}expense{% endif %}">
+                        {{ "%.2f"|format(transaction.amount) }} €
+                    </td>
+                    <td>{{ transaction.category }}</td>
+                    <td>{{ transaction.date.strftime('%d/%m/%Y') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('main.transactions') }}" class="button">Voir toutes les transactions</a>
+    </section>
+    
+    <section class="add-transaction">
+        <h2>Ajouter une Transaction</h2>
+        <form method="POST" action="{{ url_for('main.add_transaction') }}">
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select name="type" id="type" required>
+                    <option value="income">Revenu</option>
+                    <option value="expense">Dépense</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Montant (€):</label>
+                <input type="number" step="0.01" name="amount" id="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Catégorie:</label>
+                <input type="text" name="category" id="category" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" name="description" id="description">
+            </div>
+            <div class="form-group">
+                <label for="tags">Tags (séparés par des virgules):</label>
+                <input type="text" name="tags" id="tags">
+            </div>
+            <button type="submit" class="button">Ajouter</button>
+        </form>
+    </section>
+{% endblock %}

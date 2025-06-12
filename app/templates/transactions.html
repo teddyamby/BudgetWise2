@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Toutes les Transactions</h2>
+    
+    <div class="filters">
+        <form method="GET" action="{{ url_for('main.transactions') }}">
+            <div class="filter-group">
+                <label for="type">Type:</label>
+                <select name="type" id="type">
+                    <option value="all" {% if current_filters.type == 'all' %}selected{% endif %}>Tous</option>
+                    <option value="income" {% if current_filters.type == 'income' %}selected{% endif %}>Revenus</option>
+                    <option value="expense" {% if current_filters.type == 'expense' %}selected{% endif %}>Dépenses</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="category">Catégorie:</label>
+                <select name="category" id="category">
+                    <option value="all" {% if current_filters.category == 'all' %}selected{% endif %}>Toutes</option>
+                    {% for category in all_categories %}
+                        <option value="{{ category }}" {% if current_filters.category == category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="date_range">Période:</label>
+                <select name="date_range" id="date_range">
+                    <option value="all_time" {% if current_filters.date_range == 'all_time' %}selected{% endif %}>Toutes</option>
+                    <option value="today" {% if current_filters.date_range == 'today' %}selected{% endif %}>Aujourd'hui</option>
+                    <option value="this_week" {% if current_filters.date_range == 'this_week' %}selected{% endif %}>Cette semaine</option>
+                    <option value="this_month" {% if current_filters.date_range == 'this_month' %}selected{% endif %}>Ce mois</option>
+                    <option value="last_month" {% if current_filters.date_range == 'last_month' %}selected{% endif %}>Mois dernier</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="sort">Trier par:</label>
+                <select name="sort" id="sort">
+                    <option value="date_desc" {% if current_filters.sort == 'date_desc' %}selected{% endif %}>Date (récent)</option>
+                    <option value="date_asc" {% if current_filters.sort == 'date_asc' %}selected{% endif %}>Date (ancien)</option>
+                    <option value="amount_desc" {% if current_filters.sort == 'amount_desc' %}selected{% endif %}>Montant (↓)</option>
+                    <option value="amount_asc" {% if current_filters.sort == 'amount_asc' %}selected{% endif %}>Montant (↑)</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="button">Filtrer</button>
+            <a href="{{ url_for('main.transactions') }}" class="button">Réinitialiser</a>
+        </form>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Montant</th>
+                <th>Catégorie</th>
+                <th>Description</th>
+                <th>Tags</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.type }}</td>
+                <td class="{% if transaction.type == 'income' %}income{% else %}expense{% endif %}">
+                    {{ "%.2f"|format(transaction.amount) }} €
+                </td>
+                <td>{{ transaction.category }}</td>
+                <td>{{ transaction.description }}</td>
+                <td>{{ transaction.tags }}</td>
+                <td>{{ transaction.date.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>
+                    <a href="{{ url_for('main.delete_transaction', id=transaction.id) }}" class="button delete">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
