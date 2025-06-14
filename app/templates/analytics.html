@@ -3,6 +3,30 @@
 {% block content %}
     <h2>Analytics</h2>
     
+    <div class="filters">
+        <form method="GET" action="{{ url_for('main.analytics') }}" class="filter-form">
+            <div class="form-group">
+                <label for="year">Année:</label>
+                <select name="year" id="year" onchange="this.form.submit()">
+                    <option value="all" {% if current_year == 'all' %}selected{% endif %}>Toutes</option>
+                    {% for year in years %}
+                    <option value="{{ year }}" {% if current_year == year|string %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="month">Mois:</label>
+                <select name="month" id="month" onchange="this.form.submit()">
+                    <option value="all" {% if current_month == 'all' %}selected{% endif %}>Tous</option>
+                    {% for month in range(1, 13) %}
+                    <option value="{{ month }}" {% if current_month == month|string %}selected{% endif %}>{{ month }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    </div>
+    
     <section class="summary">
         <div class="summary-card">
             <h3>Total Revenus</h3>
@@ -20,8 +44,8 @@
         </div>
     </section>
     
-    <section class="categories">
-        <div class="categories-section">
+    <div class="analytics-grid">
+        <section class="income-categories">
             <h3>Revenus par Catégorie</h3>
             <div class="categories-grid">
                 {% for category, amount in income_categories.items() %}
@@ -29,14 +53,14 @@
                     <h4>{{ category }}</h4>
                     <p>{{ "%.2f"|format(amount) }} €</p>
                     <div class="progress-bar">
-                        <div class="progress income-progress" style="width: {{ (amount / total_incomes * 100) if total_incomes > 0 else 0 }}%"></div>
+                        <div class="progress income" style="width: {{ (amount / total_incomes * 100) if total_incomes > 0 else 0 }}%"></div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-        </div>
+        </section>
         
-        <div class="categories-section">
+        <section class="expense-categories">
             <h3>Dépenses par Catégorie</h3>
             <div class="categories-grid">
                 {% for category, amount in expense_categories.items() %}
@@ -44,11 +68,11 @@
                     <h4>{{ category }}</h4>
                     <p>{{ "%.2f"|format(amount) }} €</p>
                     <div class="progress-bar">
-                        <div class="progress expense-progress" style="width: {{ (amount / total_expenses * 100) if total_expenses > 0 else 0 }}%"></div>
+                        <div class="progress expense" style="width: {{ (amount / total_expenses * 100) if total_expenses > 0 else 0 }}%"></div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 {% endblock %}

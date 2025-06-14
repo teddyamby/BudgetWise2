@@ -4,49 +4,53 @@
     <h2>Toutes les Transactions</h2>
     
     <div class="filters">
-        <form method="GET" action="{{ url_for('main.transactions') }}">
-            <div class="filter-group">
+        <form method="GET" action="{{ url_for('main.transactions') }}" class="filter-form">
+            <div class="form-group">
                 <label for="type">Type:</label>
-                <select name="type" id="type">
-                    <option value="all" {% if current_filters.type == 'all' %}selected{% endif %}>Tous</option>
-                    <option value="income" {% if current_filters.type == 'income' %}selected{% endif %}>Revenus</option>
-                    <option value="expense" {% if current_filters.type == 'expense' %}selected{% endif %}>Dépenses</option>
+                <select name="type" id="type" onchange="this.form.submit()">
+                    <option value="all" {% if current_type == 'all' %}selected{% endif %}>Tous</option>
+                    <option value="income" {% if current_type == 'income' %}selected{% endif %}>Revenus</option>
+                    <option value="expense" {% if current_type == 'expense' %}selected{% endif %}>Dépenses</option>
                 </select>
             </div>
             
-            <div class="filter-group">
+            <div class="form-group">
                 <label for="category">Catégorie:</label>
-                <select name="category" id="category">
-                    <option value="all" {% if current_filters.category == 'all' %}selected{% endif %}>Toutes</option>
-                    {% for category in all_categories %}
-                        <option value="{{ category }}" {% if current_filters.category == category %}selected{% endif %}>{{ category }}</option>
+                <select name="category" id="category" onchange="this.form.submit()">
+                    <option value="all" {% if current_category == 'all' %}selected{% endif %}>Toutes</option>
+                    {% for category in categories %}
+                    <option value="{{ category }}" {% if current_category == category %}selected{% endif %}>{{ category }}</option>
                     {% endfor %}
                 </select>
             </div>
             
-            <div class="filter-group">
-                <label for="date_range">Période:</label>
-                <select name="date_range" id="date_range">
-                    <option value="all_time" {% if current_filters.date_range == 'all_time' %}selected{% endif %}>Toutes</option>
-                    <option value="today" {% if current_filters.date_range == 'today' %}selected{% endif %}>Aujourd'hui</option>
-                    <option value="this_week" {% if current_filters.date_range == 'this_week' %}selected{% endif %}>Cette semaine</option>
-                    <option value="this_month" {% if current_filters.date_range == 'this_month' %}selected{% endif %}>Ce mois</option>
-                    <option value="last_month" {% if current_filters.date_range == 'last_month' %}selected{% endif %}>Mois dernier</option>
+            <div class="form-group">
+                <label for="year">Année:</label>
+                <select name="year" id="year" onchange="this.form.submit()">
+                    <option value="all" {% if current_year == 'all' %}selected{% endif %}>Toutes</option>
+                    {% for year in years %}
+                    <option value="{{ year }}" {% if current_year == year|string %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
                 </select>
             </div>
             
-            <div class="filter-group">
-                <label for="sort">Trier par:</label>
-                <select name="sort" id="sort">
-                    <option value="date_desc" {% if current_filters.sort == 'date_desc' %}selected{% endif %}>Date (récent)</option>
-                    <option value="date_asc" {% if current_filters.sort == 'date_asc' %}selected{% endif %}>Date (ancien)</option>
-                    <option value="amount_desc" {% if current_filters.sort == 'amount_desc' %}selected{% endif %}>Montant (↓)</option>
-                    <option value="amount_asc" {% if current_filters.sort == 'amount_asc' %}selected{% endif %}>Montant (↑)</option>
+            <div class="form-group">
+                <label for="month">Mois:</label>
+                <select name="month" id="month" onchange="this.form.submit()">
+                    <option value="all" {% if current_month == 'all' %}selected{% endif %}>Tous</option>
+                    {% for month in range(1, 13) %}
+                    <option value="{{ month }}" {% if current_month == month|string %}selected{% endif %}>{{ month }}</option>
+                    {% endfor %}
                 </select>
             </div>
             
-            <button type="submit" class="button">Filtrer</button>
-            <a href="{{ url_for('main.transactions') }}" class="button">Réinitialiser</a>
+            <div class="form-group">
+                <label for="sort">Tri:</label>
+                <select name="sort" id="sort" onchange="this.form.submit()">
+                    <option value="desc" {% if current_sort == 'desc' %}selected{% endif %}>Récent au plus ancien</option>
+                    <option value="asc" {% if current_sort == 'asc' %}selected{% endif %}>Ancien au plus récent</option>
+                </select>
+            </div>
         </form>
     </div>
     
@@ -65,14 +69,20 @@
         <tbody>
             {% for transaction in transactions %}
             <tr>
-                <td>{{ transaction.type }}</td>
+                <td>{{ 'Revenu' if transaction.type == 'income' else 'Dépense' }}</td>
                 <td class="{% if transaction.type == 'income' %}income{% else %}expense{% endif %}">
                     {{ "%.2f"|format(transaction.amount) }} €
                 </td>
                 <td>{{ transaction.category }}</td>
                 <td>{{ transaction.description }}</td>
-                <td>{{ transaction.tags }}</td>
-                <td>{{ transaction.date.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>
+                    {% if transaction.tags %}
+                        {% for tag in transaction.tags.split(',') %}
+                            <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </td>
+                <td>{{ transaction.date.strftime('%d/%m/%Y') }}</td>
                 <td>
                     <a href="{{ url_for('main.delete_transaction', id=transaction.id) }}" class="button delete">Supprimer</a>
                 </td>

@@ -271,73 +271,47 @@ tr:hover {
     background-color: var(--light);
     padding: 1rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 1.5rem;
-}
-
-.filter-group {
-    margin-bottom: 0.75rem;
-}
-
-.filter-group label {
-    display: inline-block;
-    width: 100px;
-    font-weight: 500;
-}
-
-.filter-group select, 
-.filter-group input {
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-/* Analytics  */
-.categories {
-    display: grid;
-    gap: 2rem;
-}
-
-.categories-section {
-    background-color: var(--light);
-    padding: 1.5rem;
-    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.income-progress {
-    background: linear-gradient(90deg, var(--italy-green), var(--madagascar-green));
+.filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: end;
 }
 
-.expense-progress {
-    background: linear-gradient(90deg, var(--madagascar-red), var(--italy-red));
+/* Tags */
+.tag {
+    display: inline-block;
+    background-color: #e0e0e0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-right: 0.25rem;
+    color: var(--dark);
 }
 
-/* Tableaux  */
-table {
-    margin-top: 1rem;
+/* Grille d'analytics */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
-th {
-    position: sticky;
-    top: 0;
-}
-
-/* Responsivité  */
 @media (max-width: 768px) {
-    .filter-group label {
-        display: block;
-        width: auto;
-        margin-bottom: 0.25rem;
+    .analytics-grid {
+        grid-template-columns: 1fr;
     }
-    
-    .filters form {
-        display: grid;
-        gap: 1rem;
-    }
-    
-    .filter-group {
-        margin-bottom: 0;
-    }
+}
+
+/* Barres de progression spécifiques */
+.progress.income {
+    background: linear-gradient(90deg, var(--italy-green), #00cc66);
+}
+
+.progress.expense {
+    background: linear-gradient(90deg, var(--italy-red), #ff6666);
 }
