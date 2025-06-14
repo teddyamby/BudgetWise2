@@ -22,7 +22,7 @@
             <tbody>
                 {% for transaction in transactions %}
                 <tr>
-                    <td>{{ transaction.type }}</td>
+                    <td>{{ 'Revenu' if transaction.type == 'income' else 'Dépense' }}</td>
                     <td class="{% if transaction.type == 'income' %}income{% else %}expense{% endif %}">
                         {{ "%.2f"|format(transaction.amount) }} €
                     </td>
@@ -37,7 +37,7 @@
     
     <section class="add-transaction">
         <h2>Ajouter une Transaction</h2>
-        <form method="POST" action="{{ url_for('main.add_transaction') }}">
+        <form method="POST" action="{{ url_for('main.transactions') }}">
             <div class="form-group">
                 <label for="type">Type:</label>
                 <select name="type" id="type" required>

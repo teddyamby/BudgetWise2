@@ -14,41 +14,52 @@ def index():
 
 @main_bp.route('/transactions', methods=['GET', 'POST'])
 def transactions():
-    # Récupération des paramètres de filtrage
+    if request.method == 'POST':
+        # Gestion de l'ajout de transaction
+        type = request.form.get('type')
+        amount = float(request.form.get('amount'))
+        category = request.form.get('category')
+        description = request.form.get('description')
+        tags = request.form.get('tags')
+        
+        transaction = Transaction(
+            type=type,
+            amount=amount,
+            category=category,
+            description=description,
+            tags=tags,
+            date=datetime.utcnow()
+        )
+        
+        db.session.add(transaction)
+        db.session.commit()
+        flash('Transaction added successfully!', 'success')
+        return redirect(url_for('main.transactions'))
+
+    # GET request - affichage des transactions avec filtres
     transaction_type = request.args.get('type', 'all')
     category = request.args.get('category', 'all')
     year = request.args.get('year', 'all')
     month = request.args.get('month', 'all')
     sort = request.args.get('sort', 'desc')
 
-    # Construction de la requête de base
     query = Transaction.query
 
-    # Filtrage par type
     if transaction_type != 'all':
         query = query.filter(Transaction.type == transaction_type)
-
-    # Filtrage par catégorie
     if category != 'all':
         query = query.filter(Transaction.category == category)
-
-    # Filtrage par année
     if year != 'all':
         query = query.filter(extract('year', Transaction.date) == year)
-
-    # Filtrage par mois
     if month != 'all':
         query = query.filter(extract('month', Transaction.date) == month)
 
-    # Tri
     if sort == 'asc':
         query = query.order_by(Transaction.date.asc())
     else:
         query = query.order_by(Transaction.date.desc())
 
     transactions = query.all()
-
-    # Récupération des catégories uniques et des années pour les filtres
     categories = get_unique_categories()
     years = get_unique_years()
 
@@ -62,22 +73,25 @@ def transactions():
                          current_month=month,
                          current_sort=sort)
 
+@main_bp.route('/delete_transaction/<int:id>')
+def delete_transaction(id):
+    transaction = Transaction.query.get_or_404(id)
+    db.session.delete(transaction)
+    db.session.commit()
+    flash('Transaction deleted successfully!', 'success')
+    return redirect(url_for('main.transactions'))
+
 @main_bp.route('/analytics')
 def analytics():
-    # Récupération des paramètres de filtrage
     year = request.args.get('year', 'all')
     month = request.args.get('month', 'all')
 
-    # Construction des requêtes de base
     expense_query = Transaction.query.filter_by(type='expense')
     income_query = Transaction.query.filter_by(type='income')
 
-    # Filtrage par année
     if year != 'all':
         expense_query = expense_query.filter(extract('year', Transaction.date) == year)
         income_query = income_query.filter(extract('year', Transaction.date) == year)
-
-    # Filtrage par mois
     if month != 'all':
         expense_query = expense_query.filter(extract('month', Transaction.date) == month)
         income_query = income_query.filter(extract('month', Transaction.date) == month)
@@ -85,7 +99,6 @@ def analytics():
     expenses = expense_query.all()
     incomes = income_query.all()
 
-    # Calcul des statistiques
     expense_categories = {}
     income_categories = {}
     
@@ -101,7 +114,6 @@ def analytics():
         else:
             income_categories[income.category] = income.amount
 
-    # Récupération des années pour le filtre
     years = get_unique_years()
 
     return render_template('analytics.html', 
@@ -113,7 +125,6 @@ def analytics():
                          current_year=year,
                          current_month=month)
 
-# Fonctions utilitaires
 def calculate_balance():
     incomes = Transaction.query.filter_by(type='income').all()
     expenses = Transaction.query.filter_by(type='expense').all()
